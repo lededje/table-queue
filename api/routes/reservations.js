@@ -1,23 +1,24 @@
-const Router = require("koa-router");
+const Router = require('koa-router');
+
 const reservations = new Router();
 
-const models = require("../models");
+const models = require('../models');
 
-reservations.get("/:id", async (ctx, next) => {
+reservations.get('/:id', async (ctx, next) => {
   const reservation = await models.reservation.findById(ctx.params.id);
 
   ctx.body = reservation;
   await next();
 });
 
-reservations.post("/", async (ctx, next) => {
+reservations.post('/', async (ctx, next) => {
   const reservation = await models.reservation.create(ctx.request.body);
 
   ctx.body = reservation;
   await next();
 });
 
-reservations.patch("/:id", async (ctx, next) => {
+reservations.patch('/:id', async (ctx, next) => {
   const reservation = await models.reservation.findById(ctx.params.id);
   const updatedUser = await reservation.update(ctx.request.body);
 
@@ -25,7 +26,7 @@ reservations.patch("/:id", async (ctx, next) => {
   await next();
 });
 
-reservations.delete("/:id", async (ctx, next) => {
+reservations.delete('/:id', async (ctx, next) => {
   const reservation = await models.reservation.findById(ctx.params.id);
   const deleted = await reservation.destroy();
 

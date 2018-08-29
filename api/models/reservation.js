@@ -1,19 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define("reservation", {
+  const User = sequelize.define('reservation', {
     id: {
       primaryKey: true,
       type: DataTypes.INTEGER,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     phoneNumber: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
     },
     email: {
-      type: DataTypes.STRING
-    }
+      type: DataTypes.STRING,
+    },
   });
 
   return User;

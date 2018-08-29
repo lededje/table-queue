@@ -1,30 +1,31 @@
-const Router = require("koa-router");
+const Router = require('koa-router');
+
+const models = require('../models');
+
 const users = new Router();
 
-const models = require("../models");
-
-users.get("/", async (ctx, next) => {
+users.get('/', async (ctx, next) => {
   const allUsers = await models.user.findAll();
 
   ctx.body = allUsers;
   await next();
 });
 
-users.get("/:id", async (ctx, next) => {
+users.get('/:id', async (ctx, next) => {
   const user = await models.user.findById(ctx.params.id);
 
   ctx.body = user;
   await next();
 });
 
-users.post("/", async (ctx, next) => {
+users.post('/', async (ctx, next) => {
   const user = await models.user.create(ctx.request.body);
 
   ctx.body = user;
   await next();
 });
 
-users.patch("/:id", async (ctx, next) => {
+users.patch('/:id', async (ctx, next) => {
   const user = await models.user.findById(ctx.params.id);
   const updatedUser = await user.update(ctx.request.body);
 
@@ -32,7 +33,7 @@ users.patch("/:id", async (ctx, next) => {
   await next();
 });
 
-users.delete("/:id", async (ctx, next) => {
+users.delete('/:id', async (ctx, next) => {
   const user = await models.user.findById(ctx.params.id);
   const deleted = await user.destroy();
 

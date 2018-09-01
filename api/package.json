@@ -17,8 +17,10 @@
     "koa-logger": "^3.2.0",
     "koa-qs": "^2.0.0",
     "koa-router": "^7.4.0",
+    "lodash": "^4.17.10",
     "pg": "^7.4.3",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "to-snake-case": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.3",

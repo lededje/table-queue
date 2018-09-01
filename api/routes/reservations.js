@@ -4,6 +4,8 @@ const reservations = new Router();
 
 const models = require('../models');
 
+const formatErrors = require('../utils/formatErrors');
+
 reservations.get('/:id', async (ctx, next) => {
   const reservation = await models.reservation.findById(ctx.params.id);
 
@@ -12,9 +14,10 @@ reservations.get('/:id', async (ctx, next) => {
 });
 
 reservations.post('/', async (ctx, next) => {
-  const reservation = await models.reservation.create(ctx.request.body);
+  const reservation = await models.reservation.create(ctx.request.body).catch(formatErrors);
 
   ctx.body = reservation;
+  ctx.response.status = reservation.errors ? 400 : 201;
   await next();
 });
 

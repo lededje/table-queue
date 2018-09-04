@@ -1,10 +1,10 @@
 const Router = require('koa-router');
-
-const reservations = new Router();
+const Sequelize = require('sequelize');
 
 const models = require('../models');
 
-const formatErrors = require('../utils/formatErrors');
+const reservations = new Router();
+const { formatSequelizeValidationError, formatGenericError } = require('../utils/formatErrors');
 
 reservations.get('/:id', async (ctx, next) => {
   const reservation = await models.reservation.findById(ctx.params.id);
@@ -14,10 +14,22 @@ reservations.get('/:id', async (ctx, next) => {
 });
 
 reservations.post('/', async (ctx, next) => {
-  const reservation = await models.reservation.create(ctx.request.body).catch(formatErrors);
+  const { mobileNumber, name } = ctx.request.body;
 
-  ctx.body = reservation;
-  ctx.response.status = reservation.errors ? 400 : 201;
+  const { body, status } = await models.reservation
+    .createAndQueue({ mobileNumber, name })
+    .then(reservation => ({ body: reservation, status: 200 }))
+    .catch((error) => {
+      switch (error.constructor) {
+        case Sequelize.ValidationError:
+          return { body: formatSequelizeValidationError(error), status: 400 };
+        default:
+          return { body: formatGenericError(), status: 500 };
+      }
+    });
+
+  ctx.body = body;
+  ctx.response.status = status;
   await next();
 });
 

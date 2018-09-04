@@ -6,6 +6,7 @@ services:
     restart: always
     depends_on:
       - postgres
+      - redis
     volumes:
       - ./api:/app
       - /app/node_modules
@@ -43,6 +44,10 @@ services:
       - api
       - app
       - pgadmin
+
+  redis:
+    image: redis:3.2.11-alpine
+    restart: always
 
   pgadmin:
     image: dpage/pgadmin4

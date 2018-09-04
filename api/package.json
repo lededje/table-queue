@@ -19,6 +19,7 @@
     "koa-router": "^7.4.0",
     "lodash": "^4.17.10",
     "pg": "^7.4.3",
+    "redis-smq": "^1.0.20",
     "sequelize": "^4.38.0",
     "to-snake-case": "^1.0.0"
   },

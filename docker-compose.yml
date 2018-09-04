@@ -14,13 +14,13 @@ services:
     environment:
       NODE_ENV: development
 
-  app:
-    build: ./app
+  web-app:
+    build: ./web-app
     restart: always
     depends_on:
       - api
     volumes:
-      - ./app:/app
+      - ./web-app:/app
       - /app/node_modules
     command: sh -c "npm install && npm run dev"
     environment:
@@ -42,7 +42,7 @@ services:
       - "2000:2000"
     depends_on:
       - api
-      - app
+      - web-app
       - pgadmin
 
   redis:

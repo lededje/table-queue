@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import noop from 'lodash/noop';
 import get from 'lodash/get';
+import isEmpty from 'lodash/isEmpty';
 import propTypes from 'prop-types';
 import fetch from 'universal-fetch';
 
@@ -86,14 +87,19 @@ class BookATable extends PureComponent {
         response.headers.get('content-type')
         && response.headers.get('content-type').search('application/json') >= 0
       ) {
-        return response.json();
+        return response.json().then((data) => {
+          if (response.status !== 201) {
+            return { errors: data };
+          }
+          return data;
+        });
       }
       return {};
     });
 
     this.setState({
       loading: false,
-      // if errors empty bookingCompleted is trueueue
+      bookingCompleted: isEmpty(reservation.errors),
       name: reservation.name,
       phoneNumber: reservation.phoneNumber,
       errors: get(reservation, 'errors', {}),

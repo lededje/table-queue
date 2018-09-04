@@ -21,7 +21,7 @@ reservations.post("/", async (ctx, next) => {
 
   const { body, status } = await models.reservation
     .createAndQueue({ phoneNumber, name })
-    .then(reservation => ({ body: reservation, status: 200 }))
+    .then(reservation => ({ body: reservation, status: 201 }))
     .catch(error => {
       switch (error.constructor) {
         case Sequelize.ValidationError:

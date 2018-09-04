@@ -26,6 +26,20 @@ services:
     environment:
       NODE_ENV: development
 
+  message-consumer:
+    build: ./message-consumer
+    restart: always
+    depends_on:
+      - redis
+    volumes:
+      - ./message-consumer:/app
+      - /app/node_modules
+    command: sh -c "npm install && npm run dev"
+    environment:
+      NODE_ENV: development
+      ADAPTER: 'FAUX'
+      FROM_MOBILE: '+447000000000'
+
   postgres:
     image: postgres:9.3.22-alpine
     environment:

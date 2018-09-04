@@ -54,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  function createAndQueue({ mobileNumber, name }) {
-    const payload = { mobileNumber, name };
+  function createAndQueue({ phoneNumber, name }) {
+    const payload = { phoneNumber, name };
 
     return sequelize.transaction(transaction =>
       this.create(payload, { transaction }).then(newReservation =>

@@ -20,7 +20,7 @@ const pushReservationToQueue = ({ phoneNumber, name }) => new Promise((resolve, 
 });
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('reservation', {
+  const User = sequelize.define('Reservations', {
     id: {
       primaryKey: true,
       type: DataTypes.INTEGER,

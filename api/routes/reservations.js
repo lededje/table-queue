@@ -6,14 +6,14 @@ const models = require('../models');
 const reservations = new Router();
 const { formatSequelizeValidationError, formatGenericError } = require('../utils/formatErrors');
 
-reservations.get('/:id', async (ctx, next) => {
+reservations.get(':restaurantIndicator/:id', async (ctx, next) => {
   const reservation = await models.reservations.findById(ctx.params.id);
 
   ctx.body = reservation;
   await next();
 });
 
-reservations.post('/', async (ctx, next) => {
+reservations.post(':restaurantIndicator/', async (ctx, next) => {
   const { phoneNumber, name } = ctx.request.body;
 
   const { body, status } = await models.reservations
@@ -33,7 +33,7 @@ reservations.post('/', async (ctx, next) => {
   await next();
 });
 
-reservations.patch('/:id', async (ctx, next) => {
+reservations.patch(':restaurantIndicator/:id', async (ctx, next) => {
   const reservation = await models.reservations.findById(ctx.params.id);
   const updatedUser = await reservation.update(ctx.request.body);
 
@@ -41,7 +41,7 @@ reservations.patch('/:id', async (ctx, next) => {
   await next();
 });
 
-reservations.delete('/:id', async (ctx, next) => {
+reservations.delete(':restaurantIndicator/:id', async (ctx, next) => {
   const reservation = await models.reservations.findById(ctx.params.id);
   const deleted = await reservation.destroy();
 

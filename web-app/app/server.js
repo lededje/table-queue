@@ -29,11 +29,15 @@ app.prepare().then(() => {
   const server = express();
   server.disable('x-powered-by');
 
-  server.use(morgan(logFormat, {
-    skip: req => /(on-demand-entries-ping|webpack)/.test(req.path),
-  }));
+  server.use(
+    morgan(logFormat, {
+      skip: req => /(on-demand-entries-ping|webpack)/.test(req.path),
+    }),
+  );
 
   server.get('/healthcheck', (req, res) => res.json({ healthy: true }));
+
+  server.get('/:restaurantIndicator/reservations', (req, res) => app.render(req, res, '/reservations', { restaurantIndicator: req.params.restaurantIndicator }));
 
   server.get('*', (req, res) => handle(req, res));
 

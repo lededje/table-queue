@@ -7,7 +7,7 @@ const reservations = new Router();
 const { formatSequelizeValidationError, formatGenericError } = require('../utils/formatErrors');
 
 reservations.get('/:id', async (ctx, next) => {
-  const reservation = await models.reservation.findById(ctx.params.id);
+  const reservation = await models.reservations.findById(ctx.params.id);
 
   ctx.body = reservation;
   await next();
@@ -16,7 +16,7 @@ reservations.get('/:id', async (ctx, next) => {
 reservations.post('/', async (ctx, next) => {
   const { phoneNumber, name } = ctx.request.body;
 
-  const { body, status } = await models.reservation
+  const { body, status } = await models.reservations
     .createAndQueue({ phoneNumber, name })
     .then(reservation => ({ body: reservation, status: 201 }))
     .catch((error) => {
@@ -34,7 +34,7 @@ reservations.post('/', async (ctx, next) => {
 });
 
 reservations.patch('/:id', async (ctx, next) => {
-  const reservation = await models.reservation.findById(ctx.params.id);
+  const reservation = await models.reservations.findById(ctx.params.id);
   const updatedUser = await reservation.update(ctx.request.body);
 
   ctx.body = updatedUser;
@@ -42,7 +42,7 @@ reservations.patch('/:id', async (ctx, next) => {
 });
 
 reservations.delete('/:id', async (ctx, next) => {
-  const reservation = await models.reservation.findById(ctx.params.id);
+  const reservation = await models.reservations.findById(ctx.params.id);
   const deleted = await reservation.destroy();
 
   ctx.body = deleted;

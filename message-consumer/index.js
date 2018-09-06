@@ -2,12 +2,15 @@
 const { Consumer } = require('redis-smq');
 
 const fauxAdapter = require('./adapters/faux');
+const twilioAdapter = require('./adapters/twilio');
 
 const { FROM_MOBILE, ADAPTER } = process.env;
 
+if (!ADAPTER) throw new Error('No adapter specified');
+
 const adapters = {
   FAUX: fauxAdapter,
-  // TWILIO: ...
+  TWILIO: twilioAdapter,
 };
 
 const config = require('./redis.conf');

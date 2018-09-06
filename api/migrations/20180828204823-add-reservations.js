@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('Reservations', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('reservations', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -25,5 +25,5 @@ module.exports = {
     },
   }),
 
-  down: queryInterface => queryInterface.dropTable('Reservations'),
+  down: queryInterface => queryInterface.dropTable('reservations'),
 };

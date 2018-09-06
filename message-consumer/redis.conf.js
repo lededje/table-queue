@@ -1,5 +1,5 @@
 module.exports = {
-  namespace: 'subvrt',
+  namespace: 'table-queue',
   redis: {
     host: 'redis',
     port: 6379,

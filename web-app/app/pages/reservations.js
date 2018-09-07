@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import noop from 'lodash/noop';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
+import isNaN from 'lodash/isNaN';
 import propTypes from 'prop-types';
 import fetch from 'universal-fetch';
 
@@ -64,6 +65,42 @@ class BookATable extends PureComponent {
     phoneNumber: '',
     errors: {},
   };
+
+  static async getInitialProps({ req, query }) {
+    let host = '';
+
+    const isServer = !!req;
+
+    if (isServer) {
+      const protocol = req.connection.encrypted ? 'https://' : 'http://';
+      host = `${protocol}${req.headers.host}`;
+    }
+
+    const { restaurantIndicator } = query;
+
+    const id = parseInt(restaurantIndicator, 10);
+
+    const restaurantApiPath = !isNaN(id)
+      ? `${host}/api/restaurants/${id}`
+      : `${host}/api/restaurants?slug=${restaurantIndicator}`;
+
+    const restaurant = await fetch(restaurantApiPath).then((response) => {
+      if (
+        response.headers.get('content-type')
+        && response.headers.get('content-type').search('application/json') >= 0
+      ) {
+        return response.json().then((data) => {
+          if (response.status !== 201) {
+            return { errors: data };
+          }
+          return data;
+        });
+      }
+      return {};
+    });
+
+    return restaurant;
+  }
 
   submitBooking = async ({ restaurantId, name, phoneNumber }) => {
     this.setState({

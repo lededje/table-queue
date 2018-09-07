@@ -11,8 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lodash": "^4.17.10",
     "redis-smq": "^1.0.20",
-    "twilio": "^3.19.2"
+    "twilio": "^3.19.2",
+    "universal-fetch": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.18.3"

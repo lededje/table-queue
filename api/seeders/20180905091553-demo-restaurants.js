@@ -26,10 +26,10 @@ const seedRestaurants = [
 ];
 
 module.exports = {
-  up: queryInterface => queryInterface.bulkInsert('Restaurants', seedRestaurants, {}),
+  up: queryInterface => queryInterface.bulkInsert('restaurants', seedRestaurants, {}),
 
   // Delete all seeds by the phone number which is unique
-  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('Restaurants', {
+  down: (queryInterface, Sequelize) => queryInterface.bulkDelete('restaurants', {
     [Sequelize.Op.or]: seedRestaurants.map(({ phoneNumber }) => ({ phoneNumber })),
   }),
 };

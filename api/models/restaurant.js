@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('Restaurants', {
+  const User = sequelize.define('restaurants', {
     id: {
       allowNull: false,
       autoIncrement: true,

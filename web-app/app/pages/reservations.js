@@ -58,6 +58,19 @@ BookingForm.defaultProps = {
 };
 
 class BookATable extends PureComponent {
+  static propTypes = {
+    restaurant: propTypes.shape({
+      id: propTypes.number,
+      name: propTypes.string,
+      phoneNumber: propTypes.string,
+      email: propTypes.string,
+    }),
+  };
+
+  static defaultProps = {
+    restaurant: {},
+  };
+
   state = {
     loading: false,
     bookingCompleted: false,
@@ -90,16 +103,30 @@ class BookATable extends PureComponent {
         && response.headers.get('content-type').search('application/json') >= 0
       ) {
         return response.json().then((data) => {
-          if (response.status !== 201) {
+          if (response.status !== 200) {
             return { errors: data };
           }
           return data;
         });
       }
-      return {};
     });
 
-    return restaurant;
+    console.log(restaurantApiPath);
+
+    if (isEmpty(restaurant)) {
+      const err = new Error();
+      err.code = 'ENOENT';
+      throw err;
+    }
+
+    return {
+      restaurant: {
+        id: restaurant.id,
+        name: restaurant.name,
+        phoneNumber: restaurant.phoneNumber,
+        email: restaurant.email,
+      },
+    };
   }
 
   submitBooking = async ({ restaurantId, name, phoneNumber }) => {
@@ -147,9 +174,10 @@ class BookATable extends PureComponent {
     e.preventDefault();
     const name = e.target.querySelector('[name="name"]').value;
     const phoneNumber = e.target.querySelector('[name="phoneNumber"]').value;
+    const { restaurant } = this.props;
 
     this.submitBooking({
-      restaurantId: 1,
+      restaurantId: restaurant.id,
       name,
       phoneNumber,
     });
@@ -159,9 +187,10 @@ class BookATable extends PureComponent {
     const {
       loading, bookingCompleted, name, phoneNumber, errors,
     } = this.state;
+    const { restaurant } = this.props;
     return (
       <>
-        <h1>Reservations</h1>
+        <h1>{`Reservation at ${restaurant.name}`}</h1>
         {!bookingCompleted ? (
           <BookingForm loading={loading} onSubmit={this.onSubmit} errors={errors} />
         ) : (

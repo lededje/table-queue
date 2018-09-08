@@ -14,10 +14,10 @@ reservations.get('/:id', async (ctx, next) => {
 });
 
 reservations.post('/', async (ctx, next) => {
-  const { phoneNumber, name } = ctx.request.body;
+  const { phoneNumber, name, restaurantId } = ctx.request.body;
 
   const { body, status } = await models.reservations
-    .createAndQueue({ phoneNumber, name })
+    .createAndQueue({ phoneNumber, name, restaurantId })
     .then(reservation => ({ body: reservation, status: 201 }))
     .catch((error) => {
       switch (error.constructor) {

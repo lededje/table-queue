@@ -6,6 +6,11 @@ module.exports = {
       primaryKey: true,
       type: Sequelize.INTEGER,
     },
+    slug: {
+      unique: true,
+      primaryKey: true,
+      type: Sequelize.STRING,
+    },
     name: {
       type: Sequelize.STRING,
     },
@@ -13,6 +18,7 @@ module.exports = {
       type: Sequelize.STRING,
     },
     email: {
+      unique: true,
       type: Sequelize.STRING,
     },
     createdAt: {

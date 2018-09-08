@@ -3,11 +3,12 @@ const redisConf = require('../redis.conf');
 
 const producer = new Producer('reservations', redisConf);
 
-const pushReservationToQueue = ({ phoneNumber, name }) => new Promise((resolve, reject) => {
+const pushReservationToQueue = ({ phoneNumber, name, restaurantId }) => new Promise((resolve, reject) => {
   producer.produceWithTTL(
     {
       type: 'RESERVATION',
       action: 'RESERVATION_CREATED',
+      restaurantId,
       phoneNumber,
       name,
     },
@@ -52,8 +53,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  function createAndQueue({ phoneNumber, name }) {
-    const payload = { phoneNumber, name };
+  function createAndQueue({ phoneNumber, name, restaurantId }) {
+    const payload = { phoneNumber, name, restaurantId };
 
     return sequelize.transaction(transaction => this.create(payload, { transaction }).then(newReservation => pushReservationToQueue(payload).then(() => newReservation)));
   }

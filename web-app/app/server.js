@@ -1,8 +1,9 @@
 const express = require('express');
 const next = require('next');
 const morgan = require('morgan');
-
 const { createServer } = require('http');
+
+// const { proxyMiddleware } = require('./middleware/server');
 
 const dev = process.env.NODE_ENV === 'development';
 
@@ -28,7 +29,7 @@ const logFormat = dev ? 'dev' : 'combined';
 app.prepare().then(() => {
   const server = express();
   server.disable('x-powered-by');
-
+  // server.use('/api', proxyMiddleware(process.env.API_PROXY_HOST));
   server.use(
     morgan(logFormat, {
       skip: req => /(on-demand-entries-ping|webpack)/.test(req.path),
@@ -37,7 +38,9 @@ app.prepare().then(() => {
 
   server.get('/healthcheck', (req, res) => res.json({ healthy: true }));
 
-  server.get('/:restaurantIndicator/reservations', (req, res) => app.render(req, res, '/reservations', { restaurantIndicator: req.params.restaurantIndicator }));
+  server.get('/:restaurantIndicator/reservations/new', (req, res) => app.render(req, res, '/reservations/new', {
+    restaurantIndicator: req.params.restaurantIndicator,
+  }));
 
   server.get('*', (req, res) => handle(req, res));
 

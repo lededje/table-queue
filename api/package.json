@@ -4,29 +4,44 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run migrate && node server.js",
-    "dev": "nodemon server.js",
+    "start": "npm run migrate && node dist/index.js",
+    "build": "babel app -d dist --source-maps",
+    "dev": "nodemon app/server.js --exec babel-node",
     "migrate": "sequelize db:migrate",
     "seed": "sequelize db:seed:all",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest app"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "koa": "^2.5.2",
+    "@babel/cli": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "jest": "^23.6.0",
+    "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
     "koa-qs": "^2.0.0",
     "koa-router": "^7.4.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "pg": "^7.4.3",
     "redis-smq": "^1.0.20",
-    "sequelize": "^4.38.0",
+    "sequelize": "^4.38.1",
     "to-snake-case": "^1.0.0",
     "twilio": "^3.19.2"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3",
-    "sequelize-cli": "^4.1.1"
+    "@babel/core": "^7.0.1",
+    "@babel/node": "^7.0.0",
+    "flow-bin": "^0.81.0",
+    "nodemon": "^1.18.4",
+    "sequelize-cli": "^4.1.1",
+    "supertest": "^3.3.0"
   }
 }

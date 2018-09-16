@@ -1,6 +1,6 @@
-const Koa = require('koa');
+import bodyParser from 'koa-bodyparser';
 
-const bodyParser = require('koa-bodyparser');
+const Koa = require('koa');
 const logger = require('koa-logger');
 const koaqs = require('koa-qs');
 const router = require('./routes');

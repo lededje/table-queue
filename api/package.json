@@ -39,6 +39,7 @@
   "devDependencies": {
     "@babel/core": "^7.0.1",
     "@babel/node": "^7.0.0",
+    "flow-bin": "^0.81.0",
     "nodemon": "^1.18.4",
     "sequelize-cli": "^4.1.1",
     "supertest": "^3.3.0"

@@ -7,7 +7,7 @@ import defaultsDeep from 'lodash/defaultsDeep';
 import reducers from '../reducers';
 import api from '../middleware/api';
 
-export default function configureStore(initialState, isServer) {
+export default function configureStore(initialState: {}, isServer: boolean) {
   if (!isServer && typeof window !== 'undefined' && window.store) {
     return window.store;
   }
@@ -17,7 +17,9 @@ export default function configureStore(initialState, isServer) {
   const store = createStore(reducers, mergedState, composedMiddleware);
 
   if (typeof window !== 'undefined') {
+    // $FlowFixMe
     if (module.hot) {
+      // $FlowFixMe
       module.hot.accept('../reducers', () => {
         // eslint-disable-next-line
         const nextReducer = require('../reducers');

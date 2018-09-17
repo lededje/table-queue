@@ -1,12 +1,15 @@
 {
   "parser": "babel-eslint",
   "extends": ["prettier", "airbnb"],
+  "plugins": ["flowtype"],
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "import/no-unresolved": false,
     "import/extensions": false,
     "no-console": [1, { "allow": ["warn", "error"] }],
-    "import/prefer-default-export": false
+    "import/prefer-default-export": false,
+    "flowtype/use-flow-type": 1,
+    "flowtype/define-flow-type": 1
   },
   "globals": {
     "window": true,

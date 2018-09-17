@@ -10,7 +10,7 @@ services:
     volumes:
       - ./api:/app
       - /app/node_modules
-    command: sh -c "npm install --no-save && npm run dev"
+    command: sh -c "npm install --no-save && npm run migrate && npm run dev"
     environment:
       NODE_ENV: development
 
@@ -25,6 +25,7 @@ services:
     command: sh -c "npm install --no-save && npm run dev"
     environment:
       NODE_ENV: development
+      API_PROXY_HOST: http://nginx:2000/api
 
   message-consumer:
     build: ./message-consumer

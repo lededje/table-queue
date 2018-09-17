@@ -1,16 +1,33 @@
-import { FETCH_RESTAURANT_SUCCESS } from '../actions/types';
+import type { Reducer } from 'redux';
+import type { Restaurant } from '../types/Restaurant';
 
-const initialState = {
+type FetchRestaurantSuccessAction = {
+  +type: 'FETCH_RESTAURANT_SUCCESS',
+  +payload: Restaurant,
+};
+
+type Action = FetchRestaurantSuccessAction;
+
+type State = {
+  +restaurants: {
+    +[$PropertyType<Restaurant, 'id'>]: Restaurant,
+  },
+};
+
+const initialState: State = {
   restaurants: {},
 };
 
-const restaurantsReducer = (state = initialState, action = {}) => {
+const restaurantsReducer: Reducer<State, Action> = (
+  state: State = initialState,
+  action: Action,
+): State => {
   switch (action.type) {
-    case FETCH_RESTAURANT_SUCCESS:
+    case 'FETCH_RESTAURANT_SUCCESS':
       return {
         ...state,
         restaurants: {
-          ...state.restaurant,
+          ...state.restaurants,
           [action.payload.id]: action.payload,
         },
       };

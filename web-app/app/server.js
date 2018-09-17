@@ -42,6 +42,10 @@ app.prepare().then(() => {
     restaurantIndicator: req.params.restaurantIndicator,
   }));
 
+  server.get('/:restaurantIndicator/reservations/new', (req, res) => app.render(req, res, '/reservations/new', {
+    restaurantIndicator: req.params.restaurantIndicator,
+  }));
+
   server.get('*', (req, res) => handle(req, res));
 
   createServer(server).listen(port, (err) => {

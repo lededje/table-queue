@@ -1,12 +1,15 @@
-import { FETCH_RESTAURANT, FETCH_RESTAURANT_BY_INDICATOR } from './types';
+type FetchRestaurantApiAction = {
+  type: 'FETCH_RESTAURANT',
+  endpoint: string,
+};
 
-const fetchRestaurant = (id: number) => ({
-  type: FETCH_RESTAURANT,
+const fetchRestaurant = (id: number): FetchRestaurantApiAction => ({
+  type: 'FETCH_RESTAURANT',
   endpoint: `/api/restaurants/${id}`,
 });
 
-const fetchRestaurantByIndicator = (indicator: string) => ({
-  type: FETCH_RESTAURANT_BY_INDICATOR,
+const fetchRestaurantByIndicator = (indicator: string): FetchRestaurantApiAction => ({
+  type: 'FETCH_RESTAURANT',
   endpoint: `/api/restaurants?slug=${indicator}`,
 });
 

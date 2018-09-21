@@ -13,7 +13,7 @@ export default function configureStore(initialState: {}, isServer: boolean) {
     return window.store;
   }
 
-  const mergedState = defaultsDeep({}, initialState, reducers());
+  const mergedState = defaultsDeep({}, initialState, reducers(undefined, {}));
   const composedMiddleware = composeWithDevTools(applyMiddleware(asyncAwait, api, thunk));
   const store = createStore(reducers, mergedState, composedMiddleware);
 

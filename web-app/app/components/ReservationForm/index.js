@@ -23,6 +23,13 @@ type Props = {
 };
 
 class ReservationForm extends PureComponent<Props> {
+  static defaultProps = {
+    errors: {
+      name: [],
+      phoneNumber: [],
+    },
+  };
+
   onSubmit = (e: SyntheticEvent<HTMLFormElement>): void => {
     const { submitReservation } = this.props;
     const formData = new window.FormData(e.currentTarget);

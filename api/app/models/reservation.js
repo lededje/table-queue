@@ -20,7 +20,7 @@ const pushReservationToQueue = ({ phoneNumber, name, restaurantId }) => new Prom
   );
 });
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   const User = sequelize.define('reservations', {
     id: {
       primaryKey: true,

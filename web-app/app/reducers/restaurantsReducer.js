@@ -6,12 +6,14 @@ type FetchRestaurantSuccessAction = {
   +payload: Restaurant,
 };
 
+type RestaurantsState = {
+  +[$PropertyType<Restaurant, 'id'>]: Restaurant,
+};
+
 type Action = FetchRestaurantSuccessAction;
 
 type State = {
-  +restaurants: {
-    +[$PropertyType<Restaurant, 'id'>]: Restaurant,
-  },
+  restaurants: RestaurantsState,
 };
 
 const initialState: State = {
@@ -32,8 +34,10 @@ const restaurantsReducer: Reducer<State, Action> = (
         },
       };
     default:
+      (action: empty); // eslint-disable-line no-unused-expressions
       return state;
   }
 };
 
 export default restaurantsReducer;
+export type { RestaurantsState };

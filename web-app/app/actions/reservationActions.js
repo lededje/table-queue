@@ -1,4 +1,16 @@
-import { CREATE_RESERVATION } from './types';
+type CreateReservationApiAction = {
+  action: 'CREATE_RESERVATION',
+  endpoint: string,
+  options: {
+    method: 'POST',
+    data: {
+      restaurantId: number,
+      name: string,
+      phoneNumber: string,
+      email?: string,
+    },
+  },
+};
 
 const createReservation = ({
   restaurantId,
@@ -10,8 +22,8 @@ const createReservation = ({
   name: string,
   phoneNumber: string,
   email?: string,
-}) => ({
-  action: CREATE_RESERVATION,
+}): CreateReservationApiAction => ({
+  action: 'CREATE_RESERVATION',
   endpoint: '/api/reservation',
   options: {
     method: 'POST',

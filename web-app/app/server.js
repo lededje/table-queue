@@ -42,7 +42,7 @@ app.prepare().then(() => {
     restaurantIndicator: req.params.restaurantIndicator,
   }));
 
-  server.get('/:restaurantIndicator/reservations/new', (req, res) => app.render(req, res, '/reservations/new', {
+  server.get('/:restaurantIndicator/reservations', (req, res) => app.render(req, res, '/reservations', {
     restaurantIndicator: req.params.restaurantIndicator,
   }));
 

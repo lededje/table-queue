@@ -77,12 +77,7 @@ const api = store => next => (action) => {
 
         next(composedAction);
 
-        if (ok) {
-          resolve(composedAction);
-          return;
-        }
-
-        reject(composedAction);
+        resolve(composedAction);
       }),
     );
 };

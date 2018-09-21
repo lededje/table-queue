@@ -21,7 +21,7 @@ const createReservation = ({
   restaurantId: number,
   name: string,
   phoneNumber: string,
-  email?: string,
+  email: string,
 }): CreateReservationApiAction => ({
   action: 'CREATE_RESERVATION',
   endpoint: '/api/reservation',
@@ -36,4 +36,18 @@ const createReservation = ({
   },
 });
 
-export { createReservation };
+type FetchReservationsByRestaurantIdApiAction = {
+  action: 'FETCH_RESERVATIONS',
+  endpoint: string,
+};
+
+const fetchReservationsByRestaurantId = ({
+  restaurantId,
+}: {
+  restaurantId: number,
+}): FetchReservationsByRestaurantIdApiAction => ({
+  action: 'FETCH_RESERVATIONS',
+  endpoint: `/api/reservations?restaurantId=${restaurantId}`,
+});
+
+export { createReservation, fetchReservationsByRestaurantId };

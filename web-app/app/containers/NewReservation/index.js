@@ -19,8 +19,6 @@ type Props = {
     },
   },
   +restaurant: Restaurant,
-  +loading: boolean,
-  +errors: {},
   +actions: {
     +createReservation: typeof createReservation,
   },
@@ -30,7 +28,7 @@ class NewReservation extends PureComponent<Props> {
   submitReservation = (userData: { name: string, phoneNumber: string }) => {
     const { name, phoneNumber } = userData;
     const { actions, restaurant } = this.props;
-    actions.createReservation({
+    return actions.createReservation({
       restaurantId: restaurant.id,
       name,
       phoneNumber,
@@ -38,18 +36,14 @@ class NewReservation extends PureComponent<Props> {
   };
 
   render() {
-    const { restaurant, loading, errors } = this.props;
+    const { restaurant } = this.props;
 
     const restaurantName: string = get(restaurant, 'name', '');
 
     return (
       <>
         <h1>{`Reservation at ${restaurantName}`}</h1>
-        <ReservationForm
-          loading={loading}
-          submitReservation={this.submitReservation}
-          errors={errors}
-        />
+        <ReservationForm submitReservation={this.submitReservation} />
       </>
     );
   }
@@ -66,7 +60,7 @@ const connectedComponent = connect(
   }),
   (stateProps, actions, ownProps) => ({
     ...ownProps,
-    actions,
+    ...actions,
     restaurant: restaurantResolver(
       stateProps.restaurants.restaurants,
       ownProps.router.query.restaurantIndicator,

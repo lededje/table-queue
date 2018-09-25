@@ -24,10 +24,10 @@ const createReservation = ({
   email: string,
 }): CreateReservationApiAction => ({
   action: 'CREATE_RESERVATION',
-  endpoint: '/api/reservation',
+  endpoint: '/api/reservations',
   options: {
     method: 'POST',
-    data: {
+    body: {
       restaurantId,
       name,
       phoneNumber,

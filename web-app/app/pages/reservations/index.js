@@ -20,8 +20,12 @@ type Props = {
 };
 
 class Reservations extends React.PureComponent<Props> {
-  static async getInitialProps({ store }) {
-    await store.dispatch(fetchReservationsByRestaurantId({ restaurantId: 2 }));
+  static async getInitialProps({ store, query }) {
+    const { restaurants } = store.getState().restaurants;
+    const restaurantIdentifier = query.restaurantIndicator;
+    const restaurant = restaurantResolver(restaurants, restaurantIdentifier);
+
+    await store.dispatch(fetchReservationsByRestaurantId({ restaurantId: restaurant.id }));
   }
 
   render() {

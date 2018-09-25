@@ -21,14 +21,19 @@ const pushReservationToQueue = ({ phoneNumber, name, restaurantId }) => new Prom
 });
 
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define('reservations', {
+  const Reservation = sequelize.define('reservations', {
     id: {
       primaryKey: true,
       type: DataTypes.INTEGER,
       autoIncrement: true,
     },
+    restaurantId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     name: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true,
         isName(value) {
@@ -40,6 +45,7 @@ export default (sequelize, DataTypes) => {
     },
     phoneNumber: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
         notEmpty: true,
         isNumeric: true,
@@ -59,7 +65,7 @@ export default (sequelize, DataTypes) => {
     return sequelize.transaction(transaction => this.create(payload, { transaction }).then(newReservation => pushReservationToQueue(payload).then(() => newReservation)));
   }
 
-  User.createAndQueue = createAndQueue;
+  Reservation.createAndQueue = createAndQueue;
 
-  return User;
+  return Reservation;
 };

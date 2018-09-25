@@ -9,6 +9,7 @@ type Query = {
 
 const withRestaurant = (WrappedComponent: React.ComponentType<*>): React.ComponentType<*> => class extends React.Component<{}> {
   static async getInitialProps(...context) {
+    console.log('mounting...');
     const { query, store }: { query: Query } = context[0];
 
     if (!store) {

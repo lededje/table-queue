@@ -1,4 +1,16 @@
-import { CREATE_RESERVATION } from './types';
+type CreateReservationApiAction = {
+  action: 'CREATE_RESERVATION',
+  endpoint: string,
+  options: {
+    method: 'POST',
+    data: {
+      restaurantId: number,
+      name: string,
+      phoneNumber: string,
+      email?: string,
+    },
+  },
+};
 
 const createReservation = ({
   restaurantId,
@@ -9,13 +21,13 @@ const createReservation = ({
   restaurantId: number,
   name: string,
   phoneNumber: string,
-  email?: string,
-}) => ({
-  action: CREATE_RESERVATION,
-  endpoint: '/api/reservation',
+  email: string,
+}): CreateReservationApiAction => ({
+  action: 'CREATE_RESERVATION',
+  endpoint: '/api/reservations',
   options: {
     method: 'POST',
-    data: {
+    body: {
       restaurantId,
       name,
       phoneNumber,
@@ -24,4 +36,18 @@ const createReservation = ({
   },
 });
 
-export { createReservation };
+type FetchReservationsByRestaurantIdApiAction = {
+  action: 'FETCH_RESERVATIONS',
+  endpoint: string,
+};
+
+const fetchReservationsByRestaurantId = ({
+  restaurantId,
+}: {
+  restaurantId: number,
+}): FetchReservationsByRestaurantIdApiAction => ({
+  action: 'FETCH_RESERVATIONS',
+  endpoint: `/api/reservations?restaurantId=${restaurantId}`,
+});
+
+export { createReservation, fetchReservationsByRestaurantId };

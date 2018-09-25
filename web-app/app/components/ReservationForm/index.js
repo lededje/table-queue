@@ -14,27 +14,48 @@ const inputError = errors => errors.map((error) => {
 });
 
 type Props = {
-  +loading: boolean,
   +submitReservation: ({ name: string, phoneNumber: string }) => void,
+};
+
+type State = {
+  +loading: boolean,
   +errors: {
-    +name: Array<string>,
-    +phoneNumber: Array<string>,
+    name: Array<string>,
+    phoneNumber: Array<string>,
   },
 };
 
-class ReservationForm extends PureComponent<Props> {
-  onSubmit = (e: SyntheticEvent<HTMLFormElement>): void => {
+class ReservationForm extends PureComponent<Props, State> {
+  state = {
+    loading: false,
+    errors: {
+      name: [],
+      phoneNumber: [],
+    },
+  };
+
+  onSubmit = async (e: SyntheticEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+
     const { submitReservation } = this.props;
     const formData = new window.FormData(e.currentTarget);
 
     const name = formData.get('name');
     const phoneNumber = formData.get('phoneNumber');
 
-    submitReservation({ name, phoneNumber });
+    this.setState({
+      loading: true,
+    });
+
+    await submitReservation({ name, phoneNumber }).finally(() => {
+      this.setState({
+        loading: false,
+      });
+    });
   };
 
   render() {
-    const { loading = false, errors } = this.props;
+    const { loading = false, errors } = this.state;
     return (
       <form onSubmit={this.onSubmit}>
         <div>

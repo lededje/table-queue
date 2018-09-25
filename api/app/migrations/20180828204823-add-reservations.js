@@ -8,9 +8,15 @@ module.exports = {
     },
     name: {
       type: Sequelize.STRING,
+      allowNull: false,
+    },
+    restaurantId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
     },
     phoneNumber: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     email: {
       type: Sequelize.STRING,

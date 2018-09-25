@@ -10,9 +10,11 @@ module.exports = {
       unique: true,
       primaryKey: true,
       type: Sequelize.STRING,
+      allowNull: false,
     },
     name: {
       type: Sequelize.STRING,
+      allowNull: false,
     },
     phoneNumber: {
       type: Sequelize.STRING,

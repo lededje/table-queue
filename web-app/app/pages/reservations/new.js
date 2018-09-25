@@ -1,13 +1,9 @@
-import React, { PureComponent } from 'react';
+import * as React from 'react';
 
 import NewReservationContainer from '../../containers/NewReservation';
 import withRestaurant from '../../components/withRestaurant';
 import withRedux from '../../components/withRedux';
 
-class NewReservation extends PureComponent<{}> {
-  render() {
-    return <NewReservationContainer />;
-  }
-}
+const NewReservation = (): React.Node => <NewReservationContainer />;
 
-export default withRestaurant(withRedux(NewReservation));
+export default withRedux(withRestaurant(NewReservation));

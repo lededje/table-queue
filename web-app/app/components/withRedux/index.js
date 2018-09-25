@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Provider } from 'react-redux';
+import isUndefined from 'lodash/isUndefined';
+import type { $Request } from 'express';
 
 import storeProvider from '../../utils/storeProvider';
 
-export default Page => class withRedux extends Component {
-  static async getInitialProps(context) {
+type Context = {
+  req: $Request,
+};
+
+const withRedux = (WrappedComponent: React.ComponentType<*>) => class extends React.Component<{}> {
+  static async getInitialProps(context: Context) {
     const { req } = context;
-    const isServer = !!req;
+    const isServer: boolean = !isUndefined(req);
 
     const initialState = {};
 
     if (isServer) {
-      const protocol = req.connection.encrypted ? 'https://' : 'http://';
+      const protocol: string = req.connection.encrypted ? 'https://' : 'http://';
       initialState.request = {
         host: `${protocol}${req.headers.host}`,
         cookie: req.headers.cookie,
@@ -22,8 +28,8 @@ export default Page => class withRedux extends Component {
 
     let props;
 
-    if (typeof Page.getInitialProps === 'function') {
-      props = await Page.getInitialProps({ ...context, store });
+    if (typeof WrappedComponent.getInitialProps === 'function') {
+      props = await WrappedComponent.getInitialProps({ ...context, store });
     }
 
     return { _initialState: store.getState(), _isServer: isServer, ...props };
@@ -36,8 +42,10 @@ export default Page => class withRedux extends Component {
 
     return (
       <Provider store={storeProvider(_initialState, _isServer)}>
-        <Page {...props} />
+        <WrappedComponent {...props} />
       </Provider>
     );
   }
 };
+
+export default withRedux;

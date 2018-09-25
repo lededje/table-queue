@@ -67,7 +67,7 @@ const api = store => next => (action) => {
       };
     })
     .then(
-      responseAction => new Promise((resolve, reject) => {
+      responseAction => new Promise((resolve) => {
         const ok = responseAction.status && responseAction.status.toString().match(/^2/);
         const type = ok ? `${action.type}_SUCCESS` : `${action.type}_FAILURE`;
         const composedAction = {
@@ -77,12 +77,7 @@ const api = store => next => (action) => {
 
         next(composedAction);
 
-        if (ok) {
-          resolve(composedAction);
-          return;
-        }
-
-        reject(composedAction);
+        resolve(composedAction);
       }),
     );
 };

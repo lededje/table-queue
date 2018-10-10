@@ -6,6 +6,24 @@ const models = require('../models');
 const reservations = new Router();
 const { formatSequelizeValidationError, formatGenericError } = require('../utils/formatErrors');
 
+reservations.get('/', async (ctx, next) => {
+  const { restaurantId } = ctx.request.query;
+
+  if (restaurantId == null) {
+    ctx.response.status = 400;
+    ctx.body = { error: 'Missing querystring `restaurantId`' };
+    return;
+  }
+
+  const matchedReservations = await models.reservations.findAll({
+    where: { restaurantId },
+  });
+
+  ctx.body = { reservations: matchedReservations };
+
+  await next();
+});
+
 reservations.get('/:id', async (ctx, next) => {
   const reservation = await models.reservations.findById(ctx.params.id);
 

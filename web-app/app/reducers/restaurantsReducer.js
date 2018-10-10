@@ -10,7 +10,7 @@ type RestaurantsState = {
   +[$PropertyType<Restaurant, 'id'>]: Restaurant,
 };
 
-type Action = FetchRestaurantSuccessAction;
+type Action = FetchRestaurantSuccessAction | empty;
 
 type State = {
   restaurants: RestaurantsState,

@@ -1,15 +1,20 @@
 import * as React from 'react';
 import isNaN from 'lodash/isNaN';
+import get from 'lodash/get';
 
 import { fetchRestaurantByIndicator, fetchRestaurant } from '../../actions/restaurantActions';
+import { setRestaurantId } from '../../actions/requestActions';
 
 type Query = {
   +restaurantIndicator: string,
 };
 
-const withRestaurant = (WrappedComponent: React.ComponentType<*>): React.ComponentType<*> => class extends React.Component<{}> {
-  static async getInitialProps(...context) {
-    console.log('mounting...');
+const HoC = (
+  WrappedComponent: React.StatelessFunctionalComponent<*>,
+): React.StatelessFunctionalComponent<*> => {
+  const withRestaurant = props => <WrappedComponent {...props} />;
+
+  withRestaurant.getInitialProps = async (...context) => {
     const { query, store }: { query: Query } = context[0];
 
     if (!store) {
@@ -22,7 +27,9 @@ const withRestaurant = (WrappedComponent: React.ComponentType<*>): React.Compone
       ? () => fetchRestaurantByIndicator(restaurantIndicator)
       : () => fetchRestaurant(id);
 
-    const matchedRestaurant = await store.dispatch(action());
+    const matchedRestaurant = get(await store.dispatch(action()), 'payload', {});
+
+    store.dispatch(setRestaurantId(matchedRestaurant.id));
 
     if (matchedRestaurant.status === 404) {
       const err = new Error();
@@ -30,17 +37,25 @@ const withRestaurant = (WrappedComponent: React.ComponentType<*>): React.Compone
       throw err;
     }
 
+    let props = {
+      restaurantId: matchedRestaurant.id,
+    };
+
     if (typeof WrappedComponent.getInitialProps === 'function') {
-      const props = await WrappedComponent.getInitialProps.apply(null, context);
-      return props;
+      props = {
+        ...props,
+        ...(await WrappedComponent.getInitialProps.apply(null, context)),
+      };
     }
 
-    return {};
-  }
+    return props;
+  };
 
-  render() {
-    return <WrappedComponent {...this.props} />;
-  }
+  withRestaurant.displayName = `withRestaurant(${WrappedComponent.displayName
+    || WrappedComponent.name
+    || 'Component'})`;
+
+  return withRestaurant;
 };
 
-export default withRestaurant;
+export default HoC;

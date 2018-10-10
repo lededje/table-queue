@@ -1,11 +1,18 @@
 import type { Reducer } from 'redux';
 import type { Reservation } from '../types/Reservation';
 
+type FetchReservationsSuccessAction = {
+  +type: 'FETCH_RESERVATIONS_SUCCESS',
+  +payload: {
+    reservations: Array<Reservation>,
+  },
+};
+
 type ReservationsState = {
   +[$PropertyType<Reservation, 'id'>]: Reservation,
 };
 
-type Action = empty;
+type Action = FetchReservationsSuccessAction | empty;
 
 type State = {
   reservations: ReservationsState,
@@ -20,6 +27,19 @@ const reservationsReducer: Reducer<State, Action> = (
   action: Action,
 ): State => {
   switch (action.type) {
+    case 'FETCH_RESERVATIONS_SUCCESS':
+      return {
+        ...state,
+        reservations: action.payload.reservations.reduce(
+          (acc, reservation) => ({
+            ...acc,
+            [reservation.id]: reservation,
+          }),
+          {
+            ...state.reservations,
+          },
+        ),
+      };
     default:
       (action: empty); // eslint-disable-line no-unused-expressions
       return state;

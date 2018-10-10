@@ -1,5 +1,6 @@
 const seedRestaurants = [
   {
+    id: 1,
     slug: 'byron',
     name: 'Byron',
     phoneNumber: '+44000000001',
@@ -8,6 +9,7 @@ const seedRestaurants = [
     updatedAt: new Date('Wed Sep 05 2018 10:36:50 GMT+0100 (BST)'),
   },
   {
+    id: 2,
     slug: 'honest-burgers',
     name: 'Honest Burgers',
     phoneNumber: '+44000000002',
@@ -16,6 +18,7 @@ const seedRestaurants = [
     updatedAt: new Date('Wed Sep 05 2018 10:36:50 GMT+0100 (BST)'),
   },
   {
+    id: 3,
     slug: 'the-ivy',
     name: 'The Ivy',
     phoneNumber: '+44000000003',
